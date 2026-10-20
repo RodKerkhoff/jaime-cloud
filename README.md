@@ -1,3 +1,1 @@
-# jaime-cloud - fixado
-Build: pip install -r requirements.txt
-Start: python bot.py
+v3 - python-telegram-bot 21.9 compat Python 3.14
