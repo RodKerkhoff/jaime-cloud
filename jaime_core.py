@@ -1,13 +1,7 @@
-
 from datetime import datetime
 import pytz
 
-# GATEWAY RESTRITO - barreira juridica P0
 def restrito_apresentar(bloco_renderizado: str, texto_livre: str = "") -> str:
-    """
-    So permite saida se for identica ao bloco renderizado.
-    Texto extra, truncado ou livre = mensagem generica (falha fechada).
-    """
     if texto_livre and texto_livre != bloco_renderizado:
         return "[MODO RESTRITO] Informacao restrita. Ref: ver origem."
     return bloco_renderizado
@@ -17,16 +11,16 @@ def briefing_restrito():
     agora = datetime.now(tz).strftime("%d/%m %H:%M")
     bloco = (
         f"BRIEFING JAIME - {agora} (SP)\n"
-        f"Modo: restrito | minimizacao + falha fechada\n"
-        f"\n"
-        f"Agenda: ref: 2 aniversarios / origem: Google Agenda\n"
-        f"Gmail: ref: triagem 44 msgs 13/10 / origem: Gmail+Hotmail\n"
-        f"Drive: ref: \ADV\modelos\ 2 docs base mapeados\n"
-        f"\n"
-        f"Pendencias P0: definir classificacao JUR [JUR] vs automatica\n"
-        f"Status nuvem: 24h online (Render/Railway)\n"
-        f"\n"
-        f"Use /agenda para detalhe ref/data/origem"
+        "Modo: restrito | minimizacao + falha fechada\n"
+        "\n"
+        "Agenda: ref: 2 aniversarios / origem: Google Agenda\n"
+        "Gmail: ref: triagem 44 msgs 13/10 / origem: Gmail+Hotmail\n"
+        "Drive: ref: /ADV/modelos/ 2 docs base mapeados\n"
+        "\n"
+        "Pendencias P0: definir classificacao JUR vs automatica\n"
+        "Status nuvem: 24h online (Render/Railway)\n"
+        "\n"
+        "Use /agenda para detalhe ref/data/origem"
     )
     return restrito_apresentar(bloco, bloco)
 
@@ -52,20 +46,20 @@ def triagem_emails():
     return restrito_apresentar(bloco, bloco)
 
 def gerar_documento(args: str):
-    args = args.lower()
+    args = (args or "").lower()
     if "procuracao" in args:
         return (
             "GERADOR PROCURACAO\n"
-            "Base: \ADV\modelos\1 MODELO PROC NOVA.doc\n"
+            "Base: /ADV/modelos/1 MODELO PROC NOVA.doc\n"
             "Preencha: CPF, nome, RG\n"
-            "Saida: timbrado azul marinho + dourado (sobrio) + marca d'agua\n"
+            "Saida: timbrado azul marinho + dourado (sobrio) + marca dagua\n"
             "Envie: /gerar procuracao CPF 123 nome Fulano"
         )
     if "contrato" in args or "honorario" in args:
         return (
             "GERADOR CONTRATO HONORARIOS\n"
-            "Base: \ADV\modelos\1 CONTRATO HON PREV NOVO.doc\n"
+            "Base: /ADV/modelos/1 CONTRATO HON PREV NOVO.doc\n"
             "Clausulas lista fechada (sem inventar valor)\n"
-            "Saida: \ADV\contratos_gerados\"
+            "Saida: /ADV/contratos_gerados/"
         )
     return "Use: /gerar procuracao ou /gerar contrato"

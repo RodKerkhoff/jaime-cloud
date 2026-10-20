@@ -1,11 +1,10 @@
-
 import os
 import asyncio
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from jaime_core import briefing_restrito, triagem_emails, agenda_restrita, gerar_documento
 
-TOKEN = os.getenv("TELEGRAM_TOKEN", "8791533715:AAFaJX8ZcVH3vPZO5hZuQvKDBCJ8uA0BktA")
+TOKEN = os.getenv("TELEGRAM_TOKEN", "")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
@@ -29,7 +28,6 @@ async def agenda(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def triagem(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = triagem_emails()
-    # Telegram limite 4096 chars
     for chunk in [texto[i:i+4000] for i in range(0, len(texto), 4000)]:
         await update.message.reply_text(chunk)
 
@@ -39,8 +37,7 @@ async def gerar(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(texto)
 
 async def fallback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Mensagem livre -> trata como pergunta pro Jaime
-    txt = update.message.text.lower()
+    txt = (update.message.text or "").lower()
     if "briefing" in txt:
         await briefing(update, context)
     elif "agenda" in txt:
