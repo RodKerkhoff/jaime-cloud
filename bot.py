@@ -1,5 +1,4 @@
 import os
-import asyncio
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from jaime_core import briefing_restrito, triagem_emails, agenda_restrita, gerar_documento
@@ -42,9 +41,9 @@ async def fallback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Use /briefing, /agenda, /triagem, /gerar procuracao")
 
-async def main_async():
+def main():
     if not TOKEN:
-        raise RuntimeError("TELEGRAM_TOKEN nao definido nas Environment Variables do Render")
+        raise RuntimeError("TELEGRAM_TOKEN nao definido")
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("briefing", briefing))
@@ -53,16 +52,7 @@ async def main_async():
     app.add_handler(CommandHandler("gerar", gerar))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, fallback))
     print("Jaime rodando em polling (nuvem)...")
-    await app.initialize()
-    await app.start()
-    await app.updater.start_polling(allowed_updates=Update.ALL_TYPES)
-    # fica vivo
-    await app.updater.idle()
-    await app.stop()
-    await app.shutdown()
-
-def main():
-    asyncio.run(main_async())
+    app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
     main()
