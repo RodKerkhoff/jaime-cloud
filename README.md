@@ -1,1 +1,1 @@
-v3 - python-telegram-bot 21.9 compat Python 3.14
+# jaime-cloud v4 - Python 3.11 + polling fix
